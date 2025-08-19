@@ -1,5 +1,5 @@
 from logging.config import fileConfig
-from config import data_base
+from core.config import data_base
 from database.db import Base
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy import pool
@@ -60,9 +60,7 @@ def run_migrations_online() -> None:
     connectable = create_async_engine(data_base, poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

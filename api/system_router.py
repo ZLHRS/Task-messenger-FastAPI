@@ -2,9 +2,10 @@ from fastapi import APIRouter
 from starlette.responses import Response
 from models.user_model import User
 from database.db import engine, Base, session_local, SessionDep
+from schemes.user_schema import UserRole
 from use_cases.auth_use_cases import AuthUseCases
 from utils.security import hash_password
-from config import admin_info
+from core.config import admin_info
 
 router = APIRouter(prefix="/System", tags=["System"])
 
@@ -18,9 +19,9 @@ async def setup_database(response: Response, session_db: SessionDep):
     async with session_local() as session:
         user = User(
             username=admin_info.ADMIN_USERNAME,
-            email="shaikenowa.dinara@gmail.com",
+            email="shaykenov.danialg@gmail.com",
             password=hash_password(admin_info.ADMIN_PASSWORD),
-            role="admin",
+            role=UserRole("admin"),
         )
         session.add(user)
         await session.commit()

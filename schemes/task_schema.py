@@ -31,8 +31,8 @@ class TaskSchema(BaseModel):
 
 
 class PatchTask(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=3, max_length=100)
+    description: Optional[str] = Field(None, min_length=3, max_length=300)
     status: Optional[TaskStatus] = None
     user_id: Optional[int] = None
     model_config = ConfigDict(from_attributes=True)

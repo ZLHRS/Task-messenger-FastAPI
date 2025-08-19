@@ -11,3 +11,11 @@ class TaskRepository(BaseRepository):
     async def get_my_tasks(self, user_id):
         res = await self.db.execute(select(self.model).where(Task.user_id == user_id))
         return res.scalars().all()
+
+    async def get_by_user_id(self, user_id: int, task_id: int):
+        result = await self.db.execute(
+            select(self.model).where(
+                self.model.id == task_id, self.model.user_id == user_id
+            )
+        )
+        return result.scalar_one_or_none()

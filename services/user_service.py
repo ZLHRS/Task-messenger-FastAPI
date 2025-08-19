@@ -26,6 +26,3 @@ class UserService:
 
     async def get_by_id(self, user_id: int):
         return await self.user_repo.get_by_id(user_id)
-
-    async def upgrade_downgrade(self, user: dict, update_user: UserUpdateRole):
-        return await self.user_repo.update(user, update_user.model_dump())

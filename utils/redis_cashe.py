@@ -1,7 +1,7 @@
 import json
 from typing import Any
 import redis.asyncio as aioredis
-from config import redis_url
+from core.config import redis_url
 
 r = aioredis.from_url(redis_url, decode_responses=True)
 

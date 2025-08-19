@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
-from config import data_base
+from core.config import data_base
 
 engine = create_async_engine(data_base)
 session_local = async_sessionmaker(

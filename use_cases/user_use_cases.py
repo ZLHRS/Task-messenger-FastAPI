@@ -7,6 +7,7 @@ from utils.security import hash_password
 
 class UserUseCase:
     def __init__(self, db: AsyncSession):
+        self.db = db
         self.user_service = UserService(db)
 
     async def show_all(self):
@@ -32,5 +33,9 @@ class UserUseCase:
         user = await self.user_service.get_by_id(user_id)
         if user is None:
             raise HTTPException(status_code=404, detail="User is not found")
+        if update_role:
+            user.role = update_role.role
+        await self.db.commit()
+        await self.db.refresh(user)
         await self.user_service.update_redis("users:all")
-        return await self.user_service.upgrade_downgrade(user, update_role)
+        return user

@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 from jwt import ExpiredSignatureError, DecodeError
-from config import Settings
+from core.config import Settings
 from utils.redis_cashe import get_redis
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="/auth/login")

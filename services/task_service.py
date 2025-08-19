@@ -11,6 +11,9 @@ class TaskService:
         self.task_repo = TaskRepository(db)
         self.user_repo = UserRepository(db)
 
+    async def get_by_id(self, obj_id: int):
+        return await self.task_repo.get_by_id(obj_id)
+
     async def update_redis(self, key):
         data = await self.task_repo.get_all()
         data_dict = [TaskSchema.model_validate(task).model_dump() for task in data]
@@ -20,22 +23,16 @@ class TaskService:
         new_task = await self.task_repo.create(data)
         return new_task
 
-    async def show_all(self):
+    async def get_all(self):
         tasks = await self.task_repo.get_all()
         tasks_dict = [TaskSchema.model_validate(task).model_dump() for task in tasks]
         return await get_or_set("tasks:all", 60, tasks_dict)
 
-    async def update_task(self, task_id: int, data: Union[TaskUpdateStatus, PatchTask]):
-        model = await self.task_repo.get_by_id(task_id)
-        return await self.task_repo.update(model, data.model_dump())
-
-    async def show_my_tasks(self, user_id: int):
+    async def get_my_tasks(self, user_id: int):
         tasks = await self.task_repo.get_my_tasks(user_id)
         tasks_dict = [TaskSchema.model_validate(task).model_dump() for task in tasks]
         return await get_or_set("tasks:my", 60, tasks_dict)
 
-    async def show_task(self, user_id: int, task_id: int):
+    async def get_my_task(self, user_id: int, task_id: int):
         return await self.task_repo.get_by_user_id(user_id, task_id)
 
-    async def get_user_by_id(self, user_id):
-        return await self.user_repo.get_by_id(user_id)

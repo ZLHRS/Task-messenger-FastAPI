@@ -1,5 +1,5 @@
 from email.message import EmailMessage
-from config import email_info, redis_url, celery_url
+from core.config import email_info, redis_url, celery_url
 import aiosmtplib
 import asyncio
 from celery import Celery, shared_task
