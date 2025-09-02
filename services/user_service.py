@@ -22,7 +22,7 @@ class UserService:
         return await self.user_repo.get_user_by_username(username)
 
     async def register_user(self, user_data: CreateUser):
-        return await self.user_repo.create(user_data)
+        return await self.user_repo.create_obj(user_data)
 
     async def get_by_id(self, user_id: int):
         return await self.user_repo.get_by_id(user_id)

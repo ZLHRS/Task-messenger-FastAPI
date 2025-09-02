@@ -1,8 +1,8 @@
-from typing import Union
-from fastapi import HTTPException, Depends
+from typing import Union, Any
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.dependencies import get_current_user
+from schemes.auth_schema import CurrentUser
 from schemes.task_schema import CreateTask, PatchTask, TaskUpdateStatus
 from services.task_service import TaskService
 from utils.celery_app import send_email_async
@@ -41,10 +41,9 @@ class TaskUseCase:
         self,
         task_id: int,
         data: Union[TaskUpdateStatus, PatchTask],
-        current_user: dict,
+        current_user: CurrentUser,
     ):
-        user_id = current_user.get("user_id")
-        task = await self.task_service.get_my_task(user_id, task_id)
+        task = await self.task_service.get_my_task(current_user.user_id, task_id)
         if task is None:
             raise HTTPException(
                 status_code=404, detail=["This is not your task or it does not exist"]

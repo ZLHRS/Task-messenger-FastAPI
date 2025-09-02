@@ -7,7 +7,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 default_expire_time = 30
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: str | None) -> str | None:
     return pwd_context.hash(password)
 
 

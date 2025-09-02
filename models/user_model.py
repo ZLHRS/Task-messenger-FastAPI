@@ -3,6 +3,7 @@ from sqlalchemy import String, Enum
 from database.db import Base
 from enum import Enum as PyEnum
 from typing import List
+
 from models.task_model import Task
 
 
